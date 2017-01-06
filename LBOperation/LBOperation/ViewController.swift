@@ -12,7 +12,13 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        let queue = MyOperationQueue()
+//        queue.dependencyAction()
+//        queue.operationCompletion()
+//        queue.queueTest()
+        queue.test10()
     }
 
     override func didReceiveMemoryWarning() {

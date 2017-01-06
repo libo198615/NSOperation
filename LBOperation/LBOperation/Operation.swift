@@ -12,14 +12,14 @@ import Foundation
  Operation 是基于GCD实现的，封装了一些更为简单实用的功能，
  */
 
-class MyOperation {
+class MyOperationQueue {
     
     var queue = OperationQueue()
     
     /*
      Operation常用操作，创建队列，设置最大并发数
      */
-    func action1() {
+    func queueTest() {
         //设置最大并发数
         queue.maxConcurrentOperationCount = 2
         
@@ -29,11 +29,12 @@ class MyOperation {
             print("doSomething 1 \(Thread.current)")
         }
         
+        // 添加更多操作
         operation.addExecutionBlock {
             print("doSomething 2 \(Thread.current)")
         }
         
-        operation.start()
+//        operation.start()
         
         //添加到队列中的operation将自动异步执行
         queue.addOperation(operation)
@@ -41,11 +42,23 @@ class MyOperation {
             print("doSomething 3 \(Thread.current)")
         }
     }
+    
+    func test10() {
+        queue.maxConcurrentOperationCount = 3
+        for index in 1...10 {
+            let operation = BlockOperation{
+                let time = arc4random() % 3
+                sleep(time)
+                print("doSomething \(index) sleep\(time) \(Thread.current)")
+            }
+            queue.addOperation(operation)
+        }
+    }
 
     /*
      Operation 操作依赖
      */
-    func action2() {
+    func dependencyAction() {
         let operationA = BlockOperation{
             print("A")
         }
@@ -71,7 +84,7 @@ class MyOperation {
     }
     
     func doSomething() {
-        print("doSomething")
+        print("任务完成了")
     }
     
     /*
